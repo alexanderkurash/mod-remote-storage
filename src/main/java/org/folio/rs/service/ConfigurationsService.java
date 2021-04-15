@@ -61,11 +61,11 @@ public class ConfigurationsService {
   public StorageConfiguration updateConfiguration(String id, StorageConfiguration storageConfiguration) {
     if (id.equals(storageConfiguration.getId())) {
       var configuration = configurationsMapper.mapDtoToEntity(storageConfiguration);
-      configurationsRepository.save(copyForUpdate(configurationsRepository.getOne(configuration.getId()), configuration));
+      var updatedConfiguration = configurationsRepository.save(copyForUpdate(configurationsRepository.getOne(configuration.getId()), configuration));
+      return configurationsMapper.mapEntityToDto(updatedConfiguration);
     } else {
       throw new IdMismatchException();
     }
-    return storageConfiguration;
   }
 
   private Configuration copyForUpdate(Configuration dest, Configuration source) {
